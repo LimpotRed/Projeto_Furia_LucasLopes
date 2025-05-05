@@ -35,22 +35,75 @@ O app possui cinco seções principais:
 - Tabela pública com os nicks e perfis dos fãs cadastrados
 
 
-Você pode acessar o app online via [Streamlit Cloud](https://streamlit.io):
+🛠️ Tecnologias Utilizadas
+Python 3.10+
 
-👉 **[Link do App no ar](https://projetofurialucaslopes-ly5gih7zknpv5djofe6n4u.streamlit.app/)**  
+Streamlit (interface web)
 
+Pandas (leitura de CSV)
 
-- O módulo `pytesseract` usado para OCR **não funciona no Streamlit Cloud**, pois depende de software externo.
-- O formulário continua funcionando com preenchimento manual.
-- As imagens são renderizadas via **Base64 embutido**, garantindo compatibilidade no deploy.
-- O projeto é 100% feito em **Python + Streamlit** com layout customizado via CSS embutido.
+Pillow (manipulação de imagens)
 
+Pytesseract (OCR local para validação de documentos)
 
-## 🧠 Autor
+Tesseract-OCR (executável obrigatório para usar o pytesseract)
+
+CSS Customizado (estilização visual dentro do Streamlit)
+
+🚀 Acesse o App Online
+👉 Clique aqui para acessar o app via Streamlit Cloud
+
+⚠️ Importante: A validação OCR por imagem de documento não está disponível na versão online, pois o Streamlit Cloud não suporta bibliotecas que dependem de executáveis do sistema (como o Tesseract-OCR).
+
+💻 Como Rodar o Projeto Localmente
+1. Clone o repositório
+bash
+Copiar
+Editar
+git clone https://github.com/limpotred/Projeto_Furia_Know_Your_Fan.git
+cd Projeto_Furia_Know_Your_Fan
+2. Crie um ambiente virtual (opcional, mas recomendado)
+bash
+Copiar
+Editar
+python -m venv venv
+venv\Scripts\activate   # Windows
+source venv/bin/activate  # Linux/macOS
+3. Instale as dependências
+bash
+Copiar
+Editar
+pip install -r requirements.txt
+4. Instale o Tesseract-OCR
+Windows:
+Baixe e instale em: https://github.com/tesseract-ocr/tesseract
+Caminho padrão: C:\Program Files\Tesseract-OCR\tesseract.exe
+
+Linux:
+
+bash
+Copiar
+Editar
+sudo apt update && sudo apt install tesseract-ocr
+macOS:
+
+bash
+Copiar
+Editar
+brew install tesseract
+5. Execute o app
+bash
+Copiar
+Editar
+streamlit run Inicio.py
+🧠 Autor
 Lucas Lopes
-Fã da FURIA e entusiasta de tecnologia  
-[GitHub](https://github.com/limpotred)
+Fã da FURIA e entusiasta de tecnologia
+GitHub
 
+📌 Licença
+Este projeto é de uso livre para fins educacionais e demonstração.
+Todos os direitos de imagem pertencem à FURIA Esports.
 
 ## 📌 Licença
 
