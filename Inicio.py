@@ -1,8 +1,15 @@
 import streamlit as st
+from pathlib import Path
+import base64
 
 st.set_page_config(page_title="Furia", layout="wide")
 
-# Ajuste no estilo da barra e espaçamento do conteúdo
+# Função para converter imagem local em base64
+def get_base64_img(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Estilos personalizados
 st.markdown("""
     <style>
         #MainMenu, header, footer { visibility: hidden; height: 0px; }
@@ -21,17 +28,12 @@ st.markdown("""
             z-index: 1000;
         }
 
-        /* Cards estilo Sentinels */
         .player-card {
             background: linear-gradient(to bottom, #1f1f1f, #141414);
             border-radius: 20px;
             padding: 15px;
             text-align: center;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             transition: 0.3s ease;
         }
 
@@ -71,6 +73,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Barra com logo
 st.markdown("""
 <div class="top-bar">
     <img src="https://furiagg.fbitsstatic.net/sf/img/logo-furia.svg?theme=main&v=202503171541"
@@ -78,6 +81,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Título e descrição
 st.title("De um fã da FURIA para outros fãs")
 
 st.markdown("""
@@ -90,22 +94,25 @@ st.image("images/logo_furia.png", width=100)
 
 st.markdown("## Elenco atual da Pantera")
 
+# Lista de jogadores
 jogadores = [
-    {"nome": "FalleN", "posicao": "IGL / AWPer", "img": "images/fallen.png", "link": "https://steamcommunity.com/id/fallencs/"},
-    {"nome": "KSCERATO", "posicao": "Rifler", "img": "images/kscerato.png", "link": "https://steamcommunity.com/id/kscthebesten/"},
-    {"nome": "Yuurih", "posicao": "Rifler", "img": "images/yuurih.png", "link": "https://steamcommunity.com/id/ahsislife"},
-    {"nome": "YEKINDAR", "posicao": "Entry Fragger", "img": "images/yekindar.png", "link": "https://steamcommunity.com/id/yrgod/"},
-    {"nome": "Molodoy", "posicao": "Suporte", "img": "images/molodoy.png", "link": "https://steamcommunity.com/profiles/76561198200982290"},
+    {"nome": "FalleN", "posicao": "IGL / AWPer", "img": "Inicio_assets/fallen.png", "link": "https://steamcommunity.com/id/fallencs/"},
+    {"nome": "KSCERATO", "posicao": "Rifler", "img": "Inicio_assets/kscerato.png", "link": "https://steamcommunity.com/id/kscthebesten/"},
+    {"nome": "Yuurih", "posicao": "Rifler", "img": "Inicio_assets/yuurih.png", "link": "https://steamcommunity.com/id/ahsislife"},
+    {"nome": "YEKINDAR", "posicao": "Entry Fragger", "img": "Inicio_assets/yekindar.png", "link": "https://steamcommunity.com/id/yrgod/"},
+    {"nome": "Molodoy", "posicao": "Suporte", "img": "Inicio_assets/molodoy.png", "link": "https://steamcommunity.com/profiles/76561198200982290"},
 ]
 
+# Exibir cards
 cols = st.columns(len(jogadores))
 for i, jogador in enumerate(jogadores):
     with cols[i]:
+        img_base64 = get_base64_img(jogador["img"])
         st.markdown(f"""
         <div class="player-card">
-            <img src="{jogador['img']}" class="player-img">
+            <img src="data:image/png;base64,{img_base64}" class="player-img">
             <div class="player-name">{jogador['nome']}</div>
             <div class="player-role">{jogador['posicao']}</div>
-            <div class="player-link"><a href='{jogador['link']}' target='_blank'>Perfil Steam</a></div>
+            <div class="player-link"><a href="{jogador['link']}" target="_blank">Perfil Steam</a></div>
         </div>
         """, unsafe_allow_html=True)

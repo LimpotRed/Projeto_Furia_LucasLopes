@@ -1,13 +1,13 @@
 import streamlit as st
 import os
 import tempfile
-from PIL import Image
 import re
+from PIL import Image
 import pytesseract
+pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 
 #caminho do tesseract pq no path n funcionou
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Users\\lucas\\Desktop\\tesseract-ocr-3.02.grc\\tesseract-ocr\\tesseract.exe'
 
 st.set_page_config(page_title="📝 Formulário", layout="wide")
 st.title("Formulário de Cadastro")
@@ -42,7 +42,7 @@ st.title("Seja um Fã Oficial da FURIA - Know Your Fan")
 
 nome_completo = st.text_input("Nome completo")
 nick = st.text_input("Seu nick no jogo (nome in-game)")
-cpf = st.text_input("CPF (com ou sem pontuação)")
+cpf = st.text_input("CPF (com a pontuação)")
 endereco = st.text_input("Endereço completo")
 idade = st.number_input("Idade", min_value=12, max_value=99, step=1)
 regiao = st.selectbox("Sua região", ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"])
@@ -65,47 +65,38 @@ if doc is not None:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
                 tmp.write(doc.read())
                 image_path = tmp.name
-                
-            #parece ser a imagem
-            imagem = Image.open(image_path)#.convert("RGB")
-            largura, altura = imagem.size
 
-            # Região estimada do CPF na CNH
-            # left = int(largura * 0.30)
-            # top = int(altura * 0.50)
-            # right = int(largura * 0.75)
-            # bottom = int(altura * 0.70)
+                imagem = Image.open(image_path)  # sem .convert("RGB")
 
-            # area_cpf = imagem.crop((left, top, right, bottom))
-            # area_temp_path = image_path.replace(".png", "_cpf_area.png")
-            # area_cpf.save(area_temp_path)
+                # Exibe a imagem inteira enviada
+                st.image(imagem, caption="Imagem enviada", use_column_width=False)
 
-            #st.image(area_temp_path, caption="Região do CPF", use_column_width=False)
+                # Extração de texto da imagem inteira
+                texto = pytesseract.image_to_string(imagem, lang='por')
+                st.text_area("Texto extraído da imagem:", texto, height=200)
 
-            texto = pytesseract.image_to_string(imagem, lang='por')
-            st.text_area("Texto lido:", texto)
+                # Busca um CPF no texto usando regex
+                match = re.search(r'(\d{3}\.?\d{3}\.?\d{3}-?\d{2})', texto)
+                cpf_encontrado = re.sub(r'\D', '', match.group(1)) if match else ''
 
-            match = re.search(r'(\d{3}\.?\d{3}\.?\d{3}-?\d{2})', texto)
-            cpf_encontrado = re.sub(r'\D', '', match.group(1)) if match else ''
+                st.text(f"CPF identificado: {cpf_encontrado if cpf_encontrado else 'Não identificado'}")
 
-            st.text(f"CPF identificado: {cpf_encontrado if cpf_encontrado else 'Não identificado'}")
+                cpf_digitado = re.sub(r'\D', '', cpf)
 
-            cpf_digitado = re.sub(r'\D', '', cpf)
+                if cpf_encontrado and cpf_encontrado == cpf_digitado:
+                    st.success(f"✅ Documento validado com sucesso! CPF encontrado: {cpf_encontrado}")
+                    validado = True
+                else:
+                    st.warning("⚠️ CPF não confere com o digitado ou não foi reconhecido corretamente.")
 
-            if cpf_encontrado and cpf_encontrado == cpf_digitado:
-                st.success(f"✅ Documento validado com sucesso! CPF encontrado: {cpf_encontrado}")
-                validado = True
-            else:
-                st.warning("⚠️ CPF não confere com o digitado ou não foi reconhecido corretamente.")
         except Exception as e:
             st.error(f"❌ Erro na leitura do documento: {e}")
         finally:
             try:
                 os.remove(image_path)
-                if os.path.exists(imagem):
-                    os.remove(imagem)
             except Exception as e:
                 st.warning(f"⚠️ Erro ao excluir arquivos temporários: {e}")
+
 
 if st.button("Enviar"):
     if validado:
