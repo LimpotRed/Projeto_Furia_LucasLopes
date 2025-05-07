@@ -2,9 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="📖 História", layout="wide")
 
-
-
-# Ajuste no estilo da barra e espaçamento do conteúdo
 st.markdown("""
     <style>
         /* Esconde barra do Streamlit (menu, deploy, etc.) */
@@ -29,7 +26,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Barra fixa com logo FURIA
 st.markdown("""
 <div class="top-bar">
     <img src="https://furiagg.fbitsstatic.net/sf/img/logo-furia.svg?theme=main&v=202503171541"
@@ -37,7 +33,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Conteúdo principal da página
 st.title("A História da FURIA")
 st.image("images/logo_furia.png", width=90)
 

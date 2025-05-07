@@ -7,8 +7,6 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 
-#caminho do tesseract pq no path n funcionou
-
 st.set_page_config(page_title="📝 Formulário", layout="wide")
 st.title("Formulário de Cadastro")
 
@@ -66,16 +64,16 @@ if doc is not None:
                 tmp.write(doc.read())
                 image_path = tmp.name
 
-                imagem = Image.open(image_path)  # sem .convert("RGB")
+                imagem = Image.open(image_path)  
 
-                # Exibe a imagem inteira enviada
+                
                 st.image(imagem, caption="Imagem enviada", use_column_width=False)
 
-                # Extração de texto da imagem inteira
+               
                 texto = pytesseract.image_to_string(imagem, lang='por')
                 st.text_area("Texto extraído da imagem:", texto, height=200)
 
-                # Busca um CPF no texto usando regex
+                
                 match = re.search(r'(\d{3}\.?\d{3}\.?\d{3}-?\d{2})', texto)
                 cpf_encontrado = re.sub(r'\D', '', match.group(1)) if match else ''
 

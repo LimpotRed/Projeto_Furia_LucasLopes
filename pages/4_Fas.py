@@ -5,7 +5,6 @@ import os
 st.set_page_config(page_title="👥 Fãs", layout="wide")
 st.title("Fãs da FURIA")
 
-# Ajuste no estilo da barra e espaçamento do conteúdo
 st.markdown("""
     <style>
         /* Esconde barra do Streamlit (menu, deploy, etc.) */
@@ -30,7 +29,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Barra fixa com logo FURIA
 st.markdown("""
 <div class="top-bar">
     <img src="https://furiagg.fbitsstatic.net/sf/img/logo-furia.svg?theme=main&v=202503171541"
@@ -38,10 +36,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Título da página
 st.title("Base Know Your Fan")
 
-# Carregar dados do CSV
 if os.path.exists("dados_fas.csv"):
     df = pd.read_csv("dados_fas.csv", header=None)
     df.columns = [
@@ -50,7 +46,6 @@ if os.path.exists("dados_fas.csv"):
         "Steam", "Twitter", "Instagram", "Perfil externo"
     ]
     
-    # Filtrar colunas para exibição pública
     df_publico = df[["Nick", "Idade", "Steam", "Instagram"]].dropna()
     df_publico = df_publico.rename(columns={
         "Nick": "Nick (in-game)",
@@ -58,7 +53,6 @@ if os.path.exists("dados_fas.csv"):
         "Instagram": "Instagram"
     })
     
-    # Exibir a tabela na interface
     st.dataframe(df_publico.reset_index(drop=True))
 
 else:

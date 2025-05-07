@@ -4,12 +4,10 @@ import base64
 
 st.set_page_config(page_title="Furia", layout="wide")
 
-# Função para converter imagem local em base64
 def get_base64_img(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-# Estilos personalizados
 st.markdown("""
     <style>
         #MainMenu, header, footer { visibility: hidden; height: 0px; }
@@ -72,8 +70,6 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
-
-# Barra com logo
 st.markdown("""
 <div class="top-bar">
     <img src="https://furiagg.fbitsstatic.net/sf/img/logo-furia.svg?theme=main&v=202503171541"
@@ -81,7 +77,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Título e descrição
 st.title("De um fã da FURIA para outros fãs")
 
 st.markdown("""
@@ -94,7 +89,6 @@ st.image("images/logo_furia.png", width=100)
 
 st.markdown("## Elenco atual da Pantera")
 
-# Lista de jogadores
 jogadores = [
     {"nome": "FalleN", "posicao": "IGL / AWPer", "img": "Inicio_assets/fallen.png", "link": "https://steamcommunity.com/id/fallencs/"},
     {"nome": "KSCERATO", "posicao": "Rifler", "img": "Inicio_assets/kscerato.png", "link": "https://steamcommunity.com/id/kscthebesten/"},
@@ -103,7 +97,6 @@ jogadores = [
     {"nome": "Molodoy", "posicao": "Suporte", "img": "Inicio_assets/molodoy.png", "link": "https://steamcommunity.com/profiles/76561198200982290"},
 ]
 
-# Exibir cards
 cols = st.columns(len(jogadores))
 for i, jogador in enumerate(jogadores):
     with cols[i]:
